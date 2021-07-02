@@ -1,0 +1,55 @@
+---
+title: "ASU CCJ Faculty Pay 2018-2020"
+output: 
+  html_document:
+    theme: yeti
+    toc: false
+    toc_float: false
+    collapsed: false
+    smooth_scroll: false
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE, 
+                      message = FALSE, 
+                      warning = FALSE, 
+                      fig.width = 2, 
+                      fig.height = 2,
+                      fig.align = "center")
+
+rm(list = ls())
+
+```
+
+<br>
+
+Each year, the [Arizona Republic](https://www.azcentral.com/) publishes the salaries for all Arizona government employees. The data are available [here](https://www.azcentral.com/in-depth/news/local/arizona-data/2021/07/01/az-data-central-2020-arizona-government-salary-database/7535496002/?build=native-web_i_p), but you have to be a subscriber to access the database.
+
+I have put together a spreasheet with these data since I am a subscriber. The spreadsheet is available [here](https://github.com/jacobtnyoung/CCJfacultysalary/raw/main/salary.data.xlsx).
+
+<br> 
+
+### Let's pull the data together.
+
+```{r, echo = FALSE, eval = TRUE}
+
+library( dplyr )
+library( tidyr )
+library( ggplot2 )
+library( openxlsx )
+
+# Get the data.
+url <- "https://github.com/jacobtnyoung/CCJfacultysalary/raw/main/salary.data.xlsx"
+dat <- read.xlsx( url )
+
+```
+
+The data are in long format. That is, for each year there is a record. In some cases there are not values reported for some people. This is because they were not yet employed at ASU or the database (for reasons unknown to me) lacked the information.
+
+Let's reshape the data into a format that has yearly values for each individual.
+
+<br>
+
+***Last updated `r format(Sys.time(), '%d %B, %Y')`***
+<br>
