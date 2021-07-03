@@ -14,8 +14,8 @@ output:
 knitr::opts_chunk$set(echo = TRUE, 
                       message = FALSE, 
                       warning = FALSE, 
-                      fig.width = 2, 
-                      fig.height = 2,
+                      fig.width = 8, 
+                      fig.height = 8,
                       fig.align = "center")
 
 rm(list = ls())
@@ -47,7 +47,32 @@ dat <- read.xlsx( url )
 
 The data are in long format. That is, for each year there is a record. In some cases there are not values reported for some people. This is because they were not yet employed at ASU or the database (for reasons unknown to me) lacked the information.
 
-Let's reshape the data into a format that has yearly values for each individual.
+Let's reshape the data into a format that has yearly values for each individual. Then, plot it!
+
+```{r, echo=FALSE, eval=TRUE}
+
+salary.dat <- dat %>% 
+  spread(year, rate)
+
+```
+
+```{r, echo=FALSE, eval=TRUE}
+
+ggplot(
+  data = dat, 
+  aes( x = year, y = rate, group = ID ) 
+  ) +
+  geom_line() + 
+  geom_point() +
+  facet_grid( rank ~ sex, scales = "free_y", labeller = label_both, switch = "y" ) + 
+  scale_y_continuous( label = scales::dollar ) +
+  geom_text( aes( label = l.name ), check_overlap = FALSE, size = 3 ) +
+  theme_minimal()
+
+```
+
+
+
 
 <br>
 
