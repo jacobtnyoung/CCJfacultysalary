@@ -65,7 +65,7 @@ ggplot(
     breaks = c( 2018, 2019, 2020 ),
     label = c( "2018", "2019", "2020" ) 
     ) +
-  geom_text( aes( label = l.name ), check_overlap = FALSE, size = 3, color = "darkred" ) +
+  geom_text( aes( label = l.name ), check_overlap = TRUE, size = 3, color = "darkred" ) +
   ggtitle( "ASU CCJ Faculty Salaries (2018 to 2020)" ) +
   theme_minimal()
 
@@ -87,7 +87,7 @@ ggplot(
     breaks = c( 2018, 2019, 2020 ),
     label = c( "2018", "2019", "2020" ) 
     ) +
-  geom_text( aes( label = l.name ), check_overlap = FALSE, size = 3, color = "darkred" ) +
+  geom_text( aes( label = l.name ), check_overlap = TRUE, size = 3, color = "darkred" ) +
   ggtitle( "ASU CCJ Faculty Salaries by Rank (2018 to 2020)" ) +
   theme_minimal()
 
@@ -109,7 +109,7 @@ ggplot(
     breaks = c( 2018, 2019, 2020 ),
     label = c( "2018", "2019", "2020" ) 
     ) +
-  geom_text( aes( label = l.name ), check_overlap = FALSE, size = 3, color = "darkred" ) +
+  geom_text( aes( label = l.name ), check_overlap = TRUE, size = 3, color = "darkred" ) +
   ggtitle( "ASU CCJ Faculty Salaries by Sex (2018 to 2020)" ) +
   theme_minimal()
 
@@ -129,7 +129,7 @@ ggplot(
     breaks = c( 2018, 2019, 2020 ),
     label = c( "2018", "2019", "2020" ) 
     ) +
-  geom_text( aes( label = l.name ), check_overlap = FALSE, size = 3, color = "darkred" ) +
+  geom_text( aes( label = l.name ), check_overlap = TRUE, size = 3, color = "darkred" ) +
   ggtitle( "ASU CCJ Faculty Salaries by Rank & Sex (2018 to 2020)" ) +
   theme_minimal()
 
@@ -176,7 +176,7 @@ ggplot(
     breaks = c( 2018, 2019, 2020 ),
     label = c( "2018", "2019", "2020" ) 
     ) +
-  geom_text( aes( label = l.name ), check_overlap = FALSE, size = 3, color = "darkred" ) +
+  geom_text( aes( label = l.name ), check_overlap = TRUE, size = 3, color = "darkred" ) +
   ggtitle( "ASU CCJ Faculty Salaries (2018 to 2020)" ) +
   theme_minimal()
 
@@ -198,7 +198,7 @@ ggplot(
     breaks = c( 2018, 2019, 2020 ),
     label = c( "2018", "2019", "2020" ) 
     ) +
-  geom_text( aes( label = l.name ), check_overlap = FALSE, size = 3, color = "darkred" ) +
+  geom_text( aes( label = l.name ), check_overlap = TRUE, size = 3, color = "darkred" ) +
   ggtitle( "ASU CCJ Faculty Salaries by Rank (2018 to 2020)" ) +
   theme_minimal()
 
@@ -220,7 +220,7 @@ ggplot(
     breaks = c( 2018, 2019, 2020 ),
     label = c( "2018", "2019", "2020" ) 
     ) +
-  geom_text( aes( label = l.name ), check_overlap = FALSE, size = 3, color = "darkred" ) +
+  geom_text( aes( label = l.name ), check_overlap = TRUE, size = 3, color = "darkred" ) +
   ggtitle( "ASU CCJ Faculty Salaries by Sex (2018 to 2020)" ) +
   theme_minimal()
 
@@ -240,7 +240,7 @@ ggplot(
     breaks = c( 2018, 2019, 2020 ),
     label = c( "2018", "2019", "2020" ) 
     ) +
-  geom_text( aes( label = l.name ), check_overlap = FALSE, size = 3, color = "darkred" ) +
+  geom_text( aes( label = l.name ), check_overlap = TRUE, size = 3, color = "darkred" ) +
   ggtitle( "ASU CCJ Faculty Salaries by Rank & Sex (2018 to 2020)" ) +
   theme_minimal()
 
