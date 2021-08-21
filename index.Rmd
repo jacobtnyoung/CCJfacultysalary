@@ -243,7 +243,7 @@ head( dat )
 
 The data are in *long* format. That is, for each year there is a record. (As opposed to *wide* format where each row represents a single case). Let's reshape the data into a format that has yearly values for each individual.
 
-```{r, echo=FALSE, eval=TRUE}
+```{r, echo=TRUE, eval=TRUE}
 
 ggplot(
   data = dat, 
@@ -264,7 +264,7 @@ ggplot(
 
 <br>
 
-```{r, echo=FALSE, eval=TRUE}
+```{r, echo=TRUE, eval=TRUE}
 
 ggplot(
   data = dat[dat$rank == "Professor",], 
@@ -287,7 +287,7 @@ ggplot(
 
 <br>
 
-```{r, echo=FALSE, eval=TRUE}
+```{r, echo=TRUE, eval=TRUE}
 
 ggplot(
   data = dat[dat$rank == "Associate",], 
@@ -310,7 +310,7 @@ ggplot(
 
 <br>
 
-```{r, echo=FALSE, eval=TRUE}
+```{r, echo=TRUE, eval=TRUE}
 
 ggplot(
   data = dat[dat$rank == "Assistant",], 
@@ -333,7 +333,7 @@ ggplot(
 
 <br>
 
-```{r, echo=FALSE, eval=TRUE}
+```{r, echo=TRUE, eval=TRUE}
 
 ggplot(
   data = dat[dat$rank == "Professor",], 
@@ -356,7 +356,7 @@ ggplot(
 
 <br>
 
-```{r, echo=FALSE, eval=TRUE}
+```{r, echo=TRUE, eval=TRUE}
 
 ggplot(
   data = dat[dat$rank == "Associate",], 
@@ -379,7 +379,7 @@ ggplot(
 
 <br>
 
-```{r, echo=FALSE, eval=TRUE}
+```{r, echo=TRUE, eval=TRUE}
 
 ggplot(
   data = dat[dat$rank == "Assistant",], 
