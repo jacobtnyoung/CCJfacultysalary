@@ -28,6 +28,7 @@ library( dplyr )
 library( tidyr )
 library( ggplot2 )
 library( openxlsx )
+library( ggrepel )
 
 url <- "https://github.com/jacobtnyoung/CCJfacultysalary/raw/main/salary.data.xlsx"
 dat <- read.xlsx( url )
@@ -56,7 +57,7 @@ Let's start by looking at the data for everyone.
 
 ggplot(
   data = dat, 
-  aes( x = year, y = rate, group = ID ) 
+  aes( x = year, y = rate, group = ID, label = l.name ) 
   ) +
   geom_line( color = "grey40" ) + 
   geom_point( color = "grey40" ) +
@@ -65,18 +66,20 @@ ggplot(
     breaks = c( 2018, 2019, 2020 ),
     label = c( "2018", "2019", "2020" ) 
     ) +
-  geom_text( aes( label = l.name ), check_overlap = TRUE, size = 3, color = "darkred" ) +
+  geom_text_repel( aes( label = l.name ), point.size = NA ) +
   ggtitle( "ASU CCJ Faculty Salaries (2018 to 2020)" ) +
   theme_minimal()
 
 ```
+
+Woah nelly! This is pretty tough to read due to the compression of the labels for the lower ranks. Let's take a look at the ranks separately to better visualize the data.  
 
 <br>
 
 ```{r, echo=FALSE, eval=TRUE}
 
 ggplot(
-  data = dat, 
+  data = dat[dat$rank == "Professor",], 
   aes( x = year, y = rate, group = ID ) 
   ) +
   geom_line( color = "grey40" ) + 
@@ -87,8 +90,9 @@ ggplot(
     breaks = c( 2018, 2019, 2020 ),
     label = c( "2018", "2019", "2020" ) 
     ) +
-  geom_text( aes( label = l.name ), check_overlap = TRUE, size = 3, color = "darkred" ) +
-  ggtitle( "ASU CCJ Faculty Salaries by Rank (2018 to 2020)" ) +
+  geom_text_repel( aes( label = l.name ), 
+                   point.size = 0.2, segment.curvature = -0.1, segment.ncp = 3, segment.angle = 20 ) +
+  ggtitle( "ASU CCJ Faculty Salaries for Professors (2018 to 2020)" ) +
   theme_minimal()
 
 ```
@@ -98,7 +102,57 @@ ggplot(
 ```{r, echo=FALSE, eval=TRUE}
 
 ggplot(
-  data = dat, 
+  data = dat[dat$rank == "Associate",], 
+  aes( x = year, y = rate, group = ID ) 
+  ) +
+  geom_line( color = "grey40" ) + 
+  geom_point( color = "grey40" ) +
+  facet_grid( rank ~ . , scales = "free_y", labeller = label_both, switch = "y" ) + 
+  scale_y_continuous( label = scales::dollar ) +
+  scale_x_continuous(
+    breaks = c( 2018, 2019, 2020 ),
+    label = c( "2018", "2019", "2020" ) 
+    ) +
+  geom_text_repel( aes( label = l.name ), 
+                   point.size = 0.2, segment.curvature = -0.1, segment.ncp = 3, segment.angle = 20 ) +
+  ggtitle( "ASU CCJ Faculty Salaries for Associate Professors (2018 to 2020)" ) +
+  theme_minimal()
+
+```
+
+<br>
+
+```{r, echo=FALSE, eval=TRUE}
+
+ggplot(
+  data = dat[dat$rank == "Assistant",], 
+  aes( x = year, y = rate, group = ID ) 
+  ) +
+  geom_line( color = "grey40" ) + 
+  geom_point( color = "grey40" ) +
+  facet_grid( rank ~ . , scales = "free_y", labeller = label_both, switch = "y" ) + 
+  scale_y_continuous( label = scales::dollar ) +
+  scale_x_continuous(
+    breaks = c( 2018, 2019, 2020 ),
+    label = c( "2018", "2019", "2020" ) 
+    ) +
+  geom_text_repel( aes( label = l.name ), 
+                   point.size = 0.2, segment.curvature = -0.1, segment.ncp = 3, segment.angle = 20 ) +
+  ggtitle( "ASU CCJ Faculty Salaries for Assistant Professors (2018 to 2020)" ) +
+  theme_minimal()
+
+```
+
+<br>
+
+Let's take a look a these broken down by rank and sex.
+
+<br>
+
+```{r, echo=FALSE, eval=TRUE}
+
+ggplot(
+  data = dat[dat$rank == "Professor",], 
   aes( x = year, y = rate, group = ID ) 
   ) +
   geom_line( color = "grey40" ) + 
@@ -109,38 +163,64 @@ ggplot(
     breaks = c( 2018, 2019, 2020 ),
     label = c( "2018", "2019", "2020" ) 
     ) +
-  geom_text( aes( label = l.name ), check_overlap = TRUE, size = 3, color = "darkred" ) +
-  ggtitle( "ASU CCJ Faculty Salaries by Sex (2018 to 2020)" ) +
+    geom_text_repel( aes( label = l.name ), 
+                   point.size = 0.2, segment.curvature = -0.1, segment.ncp = 3, segment.angle = 20 ) +
+  ggtitle( "ASU CCJ Faculty Salaries for Professors by Sex (2018 to 2020)" ) +
   theme_minimal()
 
 ```
 
+<br>
+
 ```{r, echo=FALSE, eval=TRUE}
 
 ggplot(
-  data = dat, 
+  data = dat[dat$rank == "Associate",], 
   aes( x = year, y = rate, group = ID ) 
   ) +
   geom_line( color = "grey40" ) + 
   geom_point( color = "grey40" ) +
-  facet_grid( rank ~ sex, scales = "free_y", labeller = label_both, switch = "y" ) + 
+  facet_grid( ~ sex , scales = "free_y", labeller = label_both, switch = "y" ) + 
   scale_y_continuous( label = scales::dollar ) +
   scale_x_continuous(
     breaks = c( 2018, 2019, 2020 ),
     label = c( "2018", "2019", "2020" ) 
     ) +
-  geom_text( aes( label = l.name ), check_overlap = TRUE, size = 3, color = "darkred" ) +
-  ggtitle( "ASU CCJ Faculty Salaries by Rank & Sex (2018 to 2020)" ) +
+    geom_text_repel( aes( label = l.name ), 
+                   point.size = 0.2, segment.curvature = -0.1, segment.ncp = 3, segment.angle = 20 ) +
+  ggtitle( "ASU CCJ Faculty Salaries for Associate Professors by Sex (2018 to 2020)" ) +
   theme_minimal()
 
 ```
 
+<br>
+
+```{r, echo=FALSE, eval=TRUE}
+
+ggplot(
+  data = dat[dat$rank == "Assistant",], 
+  aes( x = year, y = rate, group = ID ) 
+  ) +
+  geom_line( color = "grey40" ) + 
+  geom_point( color = "grey40" ) +
+  facet_grid( ~ sex , scales = "free_y", labeller = label_both, switch = "y" ) + 
+  scale_y_continuous( label = scales::dollar ) +
+  scale_x_continuous(
+    breaks = c( 2018, 2019, 2020 ),
+    label = c( "2018", "2019", "2020" ) 
+    ) +
+    geom_text_repel( aes( label = l.name ), 
+                   point.size = 0.2, segment.curvature = -0.1, segment.ncp = 3, segment.angle = 20 ) +
+  ggtitle( "ASU CCJ Faculty Salaries for Assistant Professors by Sex (2018 to 2020)" ) +
+  theme_minimal()
+
+```
 
 #### 
 
 <br>
 
-#### (**code**)
+#### (**code for plots**)
 
 ```{r, echo = TRUE, eval = TRUE}
 
@@ -163,11 +243,11 @@ head( dat )
 
 The data are in *long* format. That is, for each year there is a record. (As opposed to *wide* format where each row represents a single case). Let's reshape the data into a format that has yearly values for each individual.
 
-```{r, echo=TRUE, eval=TRUE}
+```{r, echo=FALSE, eval=TRUE}
 
 ggplot(
   data = dat, 
-  aes( x = year, y = rate, group = ID ) 
+  aes( x = year, y = rate, group = ID, label = l.name ) 
   ) +
   geom_line( color = "grey40" ) + 
   geom_point( color = "grey40" ) +
@@ -176,7 +256,7 @@ ggplot(
     breaks = c( 2018, 2019, 2020 ),
     label = c( "2018", "2019", "2020" ) 
     ) +
-  geom_text( aes( label = l.name ), check_overlap = TRUE, size = 3, color = "darkred" ) +
+  geom_text_repel( aes( label = l.name ), point.size = NA ) +
   ggtitle( "ASU CCJ Faculty Salaries (2018 to 2020)" ) +
   theme_minimal()
 
@@ -184,10 +264,10 @@ ggplot(
 
 <br>
 
-```{r, echo=TRUE, eval=TRUE}
+```{r, echo=FALSE, eval=TRUE}
 
 ggplot(
-  data = dat, 
+  data = dat[dat$rank == "Professor",], 
   aes( x = year, y = rate, group = ID ) 
   ) +
   geom_line( color = "grey40" ) + 
@@ -198,18 +278,65 @@ ggplot(
     breaks = c( 2018, 2019, 2020 ),
     label = c( "2018", "2019", "2020" ) 
     ) +
-  geom_text( aes( label = l.name ), check_overlap = TRUE, size = 3, color = "darkred" ) +
-  ggtitle( "ASU CCJ Faculty Salaries by Rank (2018 to 2020)" ) +
+  geom_text_repel( aes( label = l.name ), 
+                   point.size = 0.2, segment.curvature = -0.1, segment.ncp = 3, segment.angle = 20 ) +
+  ggtitle( "ASU CCJ Faculty Salaries for Professors (2018 to 2020)" ) +
   theme_minimal()
 
 ```
 
 <br>
 
-```{r, echo=TRUE, eval=TRUE}
+```{r, echo=FALSE, eval=TRUE}
 
 ggplot(
-  data = dat, 
+  data = dat[dat$rank == "Associate",], 
+  aes( x = year, y = rate, group = ID ) 
+  ) +
+  geom_line( color = "grey40" ) + 
+  geom_point( color = "grey40" ) +
+  facet_grid( rank ~ . , scales = "free_y", labeller = label_both, switch = "y" ) + 
+  scale_y_continuous( label = scales::dollar ) +
+  scale_x_continuous(
+    breaks = c( 2018, 2019, 2020 ),
+    label = c( "2018", "2019", "2020" ) 
+    ) +
+  geom_text_repel( aes( label = l.name ), 
+                   point.size = 0.2, segment.curvature = -0.1, segment.ncp = 3, segment.angle = 20 ) +
+  ggtitle( "ASU CCJ Faculty Salaries for Associate Professors (2018 to 2020)" ) +
+  theme_minimal()
+
+```
+
+<br>
+
+```{r, echo=FALSE, eval=TRUE}
+
+ggplot(
+  data = dat[dat$rank == "Assistant",], 
+  aes( x = year, y = rate, group = ID ) 
+  ) +
+  geom_line( color = "grey40" ) + 
+  geom_point( color = "grey40" ) +
+  facet_grid( rank ~ . , scales = "free_y", labeller = label_both, switch = "y" ) + 
+  scale_y_continuous( label = scales::dollar ) +
+  scale_x_continuous(
+    breaks = c( 2018, 2019, 2020 ),
+    label = c( "2018", "2019", "2020" ) 
+    ) +
+  geom_text_repel( aes( label = l.name ), 
+                   point.size = 0.2, segment.curvature = -0.1, segment.ncp = 3, segment.angle = 20 ) +
+  ggtitle( "ASU CCJ Faculty Salaries for Assistant Professors (2018 to 2020)" ) +
+  theme_minimal()
+
+```
+
+<br>
+
+```{r, echo=FALSE, eval=TRUE}
+
+ggplot(
+  data = dat[dat$rank == "Professor",], 
   aes( x = year, y = rate, group = ID ) 
   ) +
   geom_line( color = "grey40" ) + 
@@ -220,28 +347,55 @@ ggplot(
     breaks = c( 2018, 2019, 2020 ),
     label = c( "2018", "2019", "2020" ) 
     ) +
-  geom_text( aes( label = l.name ), check_overlap = TRUE, size = 3, color = "darkred" ) +
-  ggtitle( "ASU CCJ Faculty Salaries by Sex (2018 to 2020)" ) +
+    geom_text_repel( aes( label = l.name ), 
+                   point.size = 0.2, segment.curvature = -0.1, segment.ncp = 3, segment.angle = 20 ) +
+  ggtitle( "ASU CCJ Faculty Salaries for Professors by Sex (2018 to 2020)" ) +
   theme_minimal()
 
 ```
 
-```{r, echo=TRUE, eval=TRUE}
+<br>
+
+```{r, echo=FALSE, eval=TRUE}
 
 ggplot(
-  data = dat, 
+  data = dat[dat$rank == "Associate",], 
   aes( x = year, y = rate, group = ID ) 
   ) +
   geom_line( color = "grey40" ) + 
   geom_point( color = "grey40" ) +
-  facet_grid( rank ~ sex, scales = "free_y", labeller = label_both, switch = "y" ) + 
+  facet_grid( ~ sex , scales = "free_y", labeller = label_both, switch = "y" ) + 
   scale_y_continuous( label = scales::dollar ) +
   scale_x_continuous(
     breaks = c( 2018, 2019, 2020 ),
     label = c( "2018", "2019", "2020" ) 
     ) +
-  geom_text( aes( label = l.name ), check_overlap = TRUE, size = 3, color = "darkred" ) +
-  ggtitle( "ASU CCJ Faculty Salaries by Rank & Sex (2018 to 2020)" ) +
+    geom_text_repel( aes( label = l.name ), 
+                   point.size = 0.2, segment.curvature = -0.1, segment.ncp = 3, segment.angle = 20 ) +
+  ggtitle( "ASU CCJ Faculty Salaries for Associate Professors by Sex (2018 to 2020)" ) +
+  theme_minimal()
+
+```
+
+<br>
+
+```{r, echo=FALSE, eval=TRUE}
+
+ggplot(
+  data = dat[dat$rank == "Assistant",], 
+  aes( x = year, y = rate, group = ID ) 
+  ) +
+  geom_line( color = "grey40" ) + 
+  geom_point( color = "grey40" ) +
+  facet_grid( ~ sex , scales = "free_y", labeller = label_both, switch = "y" ) + 
+  scale_y_continuous( label = scales::dollar ) +
+  scale_x_continuous(
+    breaks = c( 2018, 2019, 2020 ),
+    label = c( "2018", "2019", "2020" ) 
+    ) +
+    geom_text_repel( aes( label = l.name ), 
+                   point.size = 0.2, segment.curvature = -0.1, segment.ncp = 3, segment.angle = 20 ) +
+  ggtitle( "ASU CCJ Faculty Salaries for Assistant Professors by Sex (2018 to 2020)" ) +
   theme_minimal()
 
 ```
